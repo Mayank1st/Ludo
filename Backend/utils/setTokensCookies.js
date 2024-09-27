@@ -5,33 +5,32 @@ const setTokensCookies = (
   newAccessTokenExp,
   newRefreshTokenExp
 ) => {
-  const accessTokenMaxAge =
-    (newAccessTokenExp - Math.floor(Date.now() / 1000)) * 1000;
-  const refreshTokenmaxAge =
-    (newRefreshTokenExp - Math.floor(Date.now() / 1000)) * 1000;
+  const currentTime = Math.floor(Date.now() / 1000);
+  const accessTokenMaxAge = (newAccessTokenExp - currentTime) * 1000;
+  const refreshTokenMaxAge = (newRefreshTokenExp - currentTime) * 1000;
 
   // Set Cookie for Access Token
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
-    secure: true, // Set to true for production (HTTPS)
+    secure: process.env.NODE_ENV === 'production', // Set to true for production (HTTPS)
     maxAge: accessTokenMaxAge,
-    sameSite: "none", // Adjust to 'lax' if your frontend requires cross-site requests
+    sameSite: "none",
   });
 
   // Set Cookie for Refresh Token
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: true, // Set to true for production (HTTPS)
-    maxAge: refreshTokenmaxAge,
-    sameSite: "none", // Adjust to 'lax' if needed
+    secure: process.env.NODE_ENV === 'production', // Set to true for production (HTTPS)
+    maxAge: refreshTokenMaxAge,
+    sameSite: "none",
   });
 
   // Set Cookie for is_auth (accessible via client-side)
   res.cookie("is_auth", true, {
-    httpOnly: false, // Allows client-side JavaScript access
-    secure: true, // Set to true for production (HTTPS)
-    maxAge: refreshTokenmaxAge,
-    sameSite: "none", // Adjust according to your cross-site requirements
+    httpOnly: false,
+    secure: process.env.NODE_ENV === 'production', // Set to true for production (HTTPS)
+    maxAge: refreshTokenMaxAge,
+    sameSite: "none",
   });
 };
 
