@@ -5,25 +5,26 @@ const setTokensCookies = (res, accessToken, refreshToken, newAccessTokenExp, new
   // Set Cookie for Access Token
   res.cookie('accessToken', accessToken, {
     httpOnly: true,
-    secure: true, // Set to true if using HTTPS
+    secure: true, // Set to true for production (HTTPS)
     maxAge: accessTokenMaxAge,
-    // sameSite: 'strict', // Adjust according to your requirements
+    sameSite: 'strict', // Adjust to 'lax' if your frontend requires cross-site requests
   });
 
   // Set Cookie for Refresh Token
   res.cookie('refreshToken', refreshToken, {
     httpOnly: true,
-    secure: true, // Set to true if using HTTPS
+    secure: true, // Set to true for production (HTTPS)
     maxAge: refreshTokenmaxAge,
-    // sameSite: 'strict', // Adjust according to your requirements
+    sameSite: 'strict', // Adjust to 'lax' if needed
   });
-  // Set Cookie for is_auth
-  res.cookie('is_auth', true, {
-    httpOnly: false,
-    secure: false, // Set to true if using HTTPS
-    maxAge: refreshTokenmaxAge,
-    // sameSite: 'strict', // Adjust according to your requirements
-  });
-}
 
-export default setTokensCookies
+  // Set Cookie for is_auth (accessible via client-side)
+  res.cookie('is_auth', true, {
+    httpOnly: false, // Allows client-side JavaScript access
+    secure: true, // Set to true for production (HTTPS)
+    maxAge: refreshTokenmaxAge,
+    sameSite: 'strict', // Adjust according to your cross-site requirements
+  });
+};
+
+export default setTokensCookies;

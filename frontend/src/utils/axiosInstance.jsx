@@ -4,7 +4,7 @@ import axios from "axios";
 const axiosInstance = axios.create({
   baseURL: "https://ludo-u8tx.onrender.com/api",
   withCredentials: true,
-  timeout: 10000,
+  // timeout: 10000,
   headers: {
     "Content-Type": "application/json",
   },

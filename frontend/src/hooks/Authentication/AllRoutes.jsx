@@ -49,14 +49,7 @@ function AllRoutes() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/verify-email"
-          element={
-            <ProtectedRoute>
-              <VerifyEmail />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/verify-email" element={<VerifyEmail />} />
         <Route
           path="/forgot-password"
           element={
