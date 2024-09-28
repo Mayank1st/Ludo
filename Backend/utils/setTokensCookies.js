@@ -1,37 +1,29 @@
-const setTokensCookies = (
-  res,
-  accessToken,
-  refreshToken,
-  newAccessTokenExp,
-  newRefreshTokenExp
-) => {
-  const currentTime = Math.floor(Date.now() / 1000);
-  const accessTokenMaxAge = (newAccessTokenExp - currentTime) * 1000;
-  const refreshTokenMaxAge = (newRefreshTokenExp - currentTime) * 1000;
+const setTokensCookies = (res, accessToken, refreshToken, newAccessTokenExp, newRefreshTokenExp) => {
+  const accessTokenMaxAge = (newAccessTokenExp - Math.floor(Date.now() / 1000)) * 1000;
+  const refreshTokenmaxAge = (newRefreshTokenExp - Math.floor(Date.now() / 1000)) * 1000;
 
   // Set Cookie for Access Token
-  res.cookie("accessToken", accessToken, {
+  res.cookie('accessToken', accessToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', // Set to true for production (HTTPS)
+    secure: true, // Set to true if using HTTPS
     maxAge: accessTokenMaxAge,
-    sameSite: "none",
+    // sameSite: 'strict', // Adjust according to your requirements
   });
 
   // Set Cookie for Refresh Token
-  res.cookie("refreshToken", refreshToken, {
+  res.cookie('refreshToken', refreshToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', // Set to true for production (HTTPS)
-    maxAge: refreshTokenMaxAge,
-    sameSite: "none",
+    secure: true, // Set to true if using HTTPS
+    maxAge: refreshTokenmaxAge,
+    // sameSite: 'strict', // Adjust according to your requirements
   });
-
-  // Set Cookie for is_auth (accessible via client-side)
-  res.cookie("is_auth", true, {
+  // Set Cookie for is_auth
+  res.cookie('is_auth', true, {
     httpOnly: false,
-    secure: process.env.NODE_ENV === 'production', // Set to true for production (HTTPS)
-    maxAge: refreshTokenMaxAge,
-    sameSite: "none",
+    secure: false, // Set to true if using HTTPS
+    maxAge: refreshTokenmaxAge,
+    // sameSite: 'strict', // Adjust according to your requirements
   });
-};
+}
 
-export default setTokensCookies;
+export default setTokensCookies
